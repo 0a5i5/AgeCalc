@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب العمر</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #007bff;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1.2em;
+        color: #555;
+      }
+
+      input[type="date"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1em;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #result, #result-september {
+        font-size: 1.2em;
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      #result {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      #result-september {
+        background-color: #cce5ff;
+        color: #004085;
+        border: 1px solid #b8daff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>حساب العمر</h1>
+      <label for="birthdate">تاريخ الميلاد:</label>
+      <input type="date" id="birthdate">
+      <button onclick="calculateAge()">احسب</button>
+      <div id="result"></div>
+      <div id="result-september"></div>
+    </div>
+    <script>
+      function calculateAge() {
+        const birthdate = new Date(document.getElementById("birthdate").value);
+        const today = new Date();
+        const targetDate = new Date(new Date().getFullYear(), 8, 15); // 15 سبتمبر في العام الحالي
+        if (isNaN(birthdate)) {
+          document.getElementById("result").innerText = "الرجاء إدخال تاريخ ميلاد صحيح.";
+          document.getElementById("result-september").innerText = "";
+          return;
+        }
+
+        // حساب العمر بناءً على التاريخ الحالي
+        let years = today.getFullYear() - birthdate.getFullYear();
+        let months = today.getMonth() - birthdate.getMonth();
+        let days = today.getDate() - birthdate.getDate();
+        if (months < 0 || (months === 0 && days < 0)) {
+          years--;
+          months += 12;
+        }
+        if (days < 0) {
+          const lastMonthDate = new Date(today.getFullYear(), today.getMonth() - 1, 0).getDate();
+          days += lastMonthDate;
+          months--;
+          if (months < 0) {
+            months = 11;
+            years--;
+          }
+        }
+        document.getElementById("result").innerText = `العمر بتاريخ اليوم: ${years} سنة, ${months} شهر, ${days} يوم`;
+
+        // حساب العمر بناءً على تاريخ 15 سبتمبر
+        years = targetDate.getFullYear() - birthdate.getFullYear();
+        months = targetDate.getMonth() - birthdate.getMonth();
+        days = targetDate.getDate() - birthdate.getDate();
+        if (months < 0 || (months === 0 && days < 0)) {
+          years--;
+          months += 12;
+        }
+        if (days < 0) {
+          const lastMonthDate = new Date(targetDate.getFullYear(), targetDate.getMonth() - 1, 0).getDate();
+          days += lastMonthDate;
+          months--;
+          if (months < 0) {
+            months = 11;
+            years--;
+          }
+        }
+        document.getElementById("result-september").innerText = `العمر بتاريخ 15 سبتمبر: ${years} سنة, ${months} شهر, ${days} يوم`;
+      }
+    </script>
+  </body>
+</html>
